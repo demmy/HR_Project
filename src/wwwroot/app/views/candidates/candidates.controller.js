@@ -1,3 +1,5 @@
+/// <reference path="../../../typings/browser.d.ts" />
+
 export default function CandidatesController($scope, CandidateService) {
    'ngInject';
    var urlId = 'Candidates/All';

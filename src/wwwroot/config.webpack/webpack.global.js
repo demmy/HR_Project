@@ -26,7 +26,7 @@ module.exports = function(appPath, buildPath, pkg) {
             },
             {
                test: /\.js$/,
-               exclude: /node_modules/,
+               exclude: ['node_modules', 'build'],
                loader: 'ng-annotate?add=true!babel?presets[]=es2015'
             },
             {

@@ -1,3 +1,5 @@
+/// <reference path="../../typings/browser.d.ts" />
+
 export default class VacancyService {
    constructor(HttpService) {
       'ngInject';

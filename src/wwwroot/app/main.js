@@ -1,3 +1,5 @@
+/// <reference path="../typings/browser.d.ts" />
+
 import angular from 'angular';
 import router from 'angular-ui-router';
 

@@ -1,3 +1,5 @@
+/// <reference path="../../typings/browser.d.ts" />
+
 const BASE_URL = 'http://localhost:53031/api/';
 
 export default class HttpService {

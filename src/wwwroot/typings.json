@@ -1,0 +1,10 @@
+{
+  "name": "bot",
+  "version": false,
+  "dependencies": {},
+  "ambientDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160318102130",
+    "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160317120654",
+    "lodash": "registry:dt/lodash#3.10.0+20160319050323"
+  }
+}

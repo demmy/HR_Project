@@ -1,3 +1,5 @@
+/// <reference path="../../../typings/browser.d.ts" />
+
 export default function CandidateController($scope, CandidateService) {
    'ngInject';
 
