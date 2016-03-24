@@ -3,13 +3,8 @@
       "target": "ES6",
       "module": "commonjs"
    },
-   "files": [
-     "typings/browser.d.ts" 
-   ],
    "exclude": [
       "build",
-      "node_modules",
-      "typings/main",
-      "typings/main.d.ts"
+      "node_modules"
    ]
 }

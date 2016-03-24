@@ -1,8 +1,7 @@
-export default function VacanciesController($scope, VacancyService) {
-   'ngInject';
-
 /// <reference path="../../../typings/browser.d.ts" />
 
+export default function VacanciesController($scope, VacancyService) {
+   'ngInject';
    var urlId = 'Vacancies';
    var vm = $scope;
 
