@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace BotLibrary.Entities
 {
-    public class Photo: BaseEntity
+    [ComplexType]
+    public class Photo
     {
-        FileInfo Image { get; set; }
-        string Description { get; set; }
+        public string ImagePath { get; set; }
+        public string Description { get; set; }
     }
 }

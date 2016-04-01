@@ -1,15 +1,11 @@
 ﻿using BotLibrary.Entities.Setup;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BotLibrary.Entities
 {
-    public class StageInfo: BaseEntity
+    public class StageInfo
     {
-        Stage Stage { get; set; }
-        Comment Comment { get; set; }
+        public Stage Stage { get; set; }
+        public Comment Comment { get; set; }
     }
 }
