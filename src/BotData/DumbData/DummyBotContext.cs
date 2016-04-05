@@ -1,26 +1,24 @@
-﻿using System;
+﻿using BotData.Abstract;
+using BotLibrary.Entities;
+using BotLibrary.Entities.Enum;
+using BotLibrary.Entities.Setup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using BotLibrary.Entities;
-using BotLibrary.Entities.Setup;
-using BotLibrary.Entities.Enum;
 
-namespace BotWebApi.Models
+namespace BotData.DumbData
 {
-    public class DummyBotContext : IBotContext
+    public class DummyBotContext : IContext
     {
         List<Candidate> _candidates = new List<Candidate>();
         List<Vacancy> _vacancies = new List<Vacancy>();
-
+    
         public DummyBotContext()
         {
             Random r = new Random();
 
             Location _location = new Location()
             {
-                Id = 1,
-                EditTime = DateTime.Now,
                 City = new City()
                 {
                     Id = 1,
@@ -115,7 +113,7 @@ namespace BotWebApi.Models
                     Comments = new List<Comment>(),
                     Files = new List<File>(),
                     MasterVacancy = false,
-                    CandidatesProgress = new Dictionary<Candidate, List<StageInfo>>()
+                    CandidatesProgress = new List<CandidateStageInfo>()
                 });
             }
             int _nameIndex = 0;
@@ -125,25 +123,15 @@ namespace BotWebApi.Models
                 {
                     Id = i,
                     EditTime = DateTime.Now,
-                    PersonalInfo = new PersonalInfo()
-                    {
-                        Id = i,
-                        EditTime = DateTime.Now.AddDays(i),
-                        BirthDate = DateTime.Now.Subtract(new TimeSpan(i, i, i)),
-                        Gender = i % 2 == 0 ? true : false,
-                        FirstName = i % 2 == 0 ? Names.MaleFirstNames[_nameIndex] : Names.FemaleFirstNames[_nameIndex],
-                        MiddleName = i.ToString(),
-                        LastName = i.ToString(),
-                        Photo = null
-                    },
-                    ContactInfo = new ContactInfo()
-                    {
-                        Id = i,
-                        EditTime = DateTime.Now.AddDays(i),
-                        Email = string.Format("email{0}@email.com", i),
-                        PhoneNumbers = new List<string>() { "+390" + r.Next(000000001, 999999999).ToString() },
-                        Skype = "skype" + i,
-                    },
+                    BirthDate = DateTime.Now.Subtract(new TimeSpan(i, i, i)),
+                    Gender = i % 2 == 0 ? true : false,
+                    FirstName = i % 2 == 0 ? Storage.MaleFirstNames[_nameIndex] : Storage.FemaleFirstNames[_nameIndex],
+                    MiddleName = i.ToString(),
+                    LastName = i.ToString(),
+                    Photo = null,
+                    Email = string.Format("email{0}@email.com", i),
+                    PhoneNumbers = new List<string>() { "+38093000" + i },
+                    Skype = "skype" + i,
                     Comments = new List<Comment>()
                     {
                         new Comment()
@@ -162,26 +150,21 @@ namespace BotWebApi.Models
                     Files = new List<File>(),
                     SocialNetworks = new List<SocialNetwork>(),
                     Sources = new List<Source>(),
-                    WorkInfo = new WorkInfo()
+                    Experience = new Experience()
                     {
                         Id = i,
                         EditTime = DateTime.Now,
-                        Experience = new Experience()
-                        {
-                            Id = i,
-                            EditTime = DateTime.Now,
-                            WorkExperience = new TimeSpan(i)
-                        },
-                        PositionDesired = "Junior Architechique",
-                        Practice = "Good practice",
-                        SalaryDesired = 500 + i,
-                        Skills = _skills,
-                        TypeOfEmployment = TypeOfEmployment.FullTime
+                        WorkExperience = new TimeSpan(i)
                     },
-                    VacanciesProgress = new Dictionary<Vacancy, StageInfo>()
+                    PositionDesired = i % 2 == 0 ? (i % 3 == 0 ? "Senior" : "Middle") : "Junior",
+                    Practice = "Good practice",
+                    SalaryDesired = 500 + i,
+                    Skills = _skills,
+                    TypeOfEmployment = TypeOfEmployment.FullTime,
+                    VacanciesProgress = new List<VacancyStageInfo>()
                 });
                 _nameIndex++;
-                if (Names.MaleFirstNames.Count - 1 == _nameIndex || Names.FemaleFirstNames.Count - 1 == _nameIndex) _nameIndex = 0;
+                if (Storage.MaleFirstNames.Count - 1 == _nameIndex || Storage.FemaleFirstNames.Count - 1 == _nameIndex) _nameIndex = 0;
             }
 
 
@@ -189,8 +172,6 @@ namespace BotWebApi.Models
             {
                 new StageInfo()
                 {
-                    Id = 1,
-                    EditTime = DateTime.Now,
                     Stage = new Stage()
                     {
                         Id = 1,
@@ -201,8 +182,6 @@ namespace BotWebApi.Models
                 },
                 new StageInfo()
                 {
-                    Id = 2,
-                    EditTime = DateTime.Now,
                     Stage = new Stage()
                     {
                         Id = 2,
@@ -216,32 +195,43 @@ namespace BotWebApi.Models
             int _vacancyIndex = 0;
             foreach (var c in _candidates)
             {
-                c.VacanciesProgress.Add(_vacancies[_vacancyIndex], _stages[0]);
-                _vacancies[_vacancyIndex].CandidatesProgress.Add(c, new List<StageInfo>() { _stages[0] });
+                if (_vacancyIndex == 20) _vacancyIndex = 0;
+                c.VacanciesProgress.Add(new VacancyStageInfo()
+                {
+                    Vacancy = _vacancies[_vacancyIndex],
+                    StageInfos = new List<StageInfo>() { _stages[_vacancyIndex % 2 == 0 ? 0 : 1] }
+                });
+                _vacancies[_vacancyIndex].CandidatesProgress.Add(new CandidateStageInfo()
+                {
+                    Candidate = c,
+                    StageInfos = new List<StageInfo>() { _stages[_vacancyIndex % 2 == 0 ? 0 : 1] }
+                });
                 _vacancyIndex++;
-                if (_vacancyIndex == 19) _vacancyIndex = 0;
             }
 
         }
 
-        public List<Candidate> Candidates
+        public IList<Candidate> Candidates
         {
             get
             {
                 return _candidates;
             }
-
             set
             {
                 throw new NotImplementedException();
             }
         }
 
-        public List<Vacancy> Vacancies
+        public IList<Vacancy> Vacancies
         {
             get
             {
                 return _vacancies;
+            }
+            set
+            {
+                throw new NotImplementedException();
             }
         }
     }

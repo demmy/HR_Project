@@ -1,5 +1,6 @@
+#.vscode/
+#jsconfig.json
 node_modules/
 build/
-#.vscode/
 typings/
-#jsconfig.json
+config/config.context/local.json
