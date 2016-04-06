@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BotLibrary.Entities
 {
-    [ComplexType]
-    public class VacancyStageInfo
+    public class VacancyStageInfo : BaseEntity
     {
-        public Vacancy Vacancy { get; set; }
-        public List<StageInfo> StageInfos { get; set; }
+        public virtual VacancyStage VacancyStage { get; set; }
+        public virtual Candidate Candidate { get; set; }
+        public virtual Comment Comment { get; set; }
     }
 }
